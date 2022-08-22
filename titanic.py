@@ -197,6 +197,7 @@ del test["Cabin"]
 
 # 이제 Age 항목 스케일링이 필요함.
 # 청년, 중년 , 장년 정도로 해주면 될 것 같다.
+
 # 어린 순서대로 
 train['Age'].loc[(train['Age'] <= 19)] = 0
 train['Age'].loc[((train['Age'] > 19) & (train['Age'] <= 50))] = 1
@@ -207,11 +208,29 @@ test['Age'].loc[(test['Age'] <= 19)] = 0
 test['Age'].loc[((test['Age'] > 19) & (test['Age'] <= 50))] = 1
 test['Age'].loc[(test['Age'] > 50 )] = 2
 
+# Passenger ID 도 필요없으니 드랍
+del train["PassengerId"]
+del test["PassengerId"]
 
+# Pclass 랑 Fare 도 연관이 잇으니 Pclass 드랍해주겟음
 
-# # 바이닝이 잘 되었나 확인
+del train["Pclass"]
+del test["Pclass"]
+
+#Name 도 Age 에 쓰엿으니  드랍
+
+del train["Name"]
+del test["Name"]
+
+# #  바이닝이 잘 되었나 확인
 train.to_csv('bining_csv.csv',encoding= "cp949")
 
+# 잘 되엇음
+
+# 랜덤 포레스트
+,Survived,Sex,Age,Fare,FamilyCount
+x = df[['', 'yard', 'bathroom', 'livingroom', 'room']]
+y = df['Survived']
 
 
 
