@@ -222,16 +222,46 @@ del test["Pclass"]
 del train["Name"]
 del test["Name"]
 
-# #  바이닝이 잘 되었나 확인
-train.to_csv('bining_csv.csv',encoding= "cp949")
+test = test.fillna(value=1)
+
+
+# # #  바이닝이 잘 되었나 확인
+# train.to_csv('bining_csv.csv',encoding= "cp949")
 
 # 잘 되엇음
 
 # 랜덤 포레스트
-,Survived,Sex,Age,Fare,FamilyCount
-x = df[['', 'yard', 'bathroom', 'livingroom', 'room']]
-y = df['Survived']
+
+x = train[['Sex', 'Age', 'Fare', 'FamilyCount']]
+y = train['Survived']
+
+
+from sklearn.model_selection import train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3)
 
 
 
 
+
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier(n_estimators = 100)
+model.fit(x_train, y_train)
+
+y_pred = model.predict(x_test)
+
+result = pd.DataFrame({'pred' : y_pred, 'real' : y_test})
+
+
+y_pred = model.predict(test)
+
+# 에측하기
+print(y_pred)
+# print(type(y_pred))
+
+# 예측한것을 ndarray to list 
+
+predict_result = y_pred.tolist()
+print(predict_result)
+print(len(predict_result))
