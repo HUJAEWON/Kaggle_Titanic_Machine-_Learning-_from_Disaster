@@ -1,3 +1,4 @@
+from ast import Pass
 from asyncio.windows_events import NULL
 from cgi import print_arguments
 from cmath import nan
@@ -10,7 +11,7 @@ import numpy as np
 train = pd.read_csv("./train.csv")
 test = pd.read_csv("./test.csv")
 
-
+Passenger_id = test['PassengerId']
 # 칼럼 
 # survival	Survival	0 = No, 1 = Yes
 # pclass	Ticket class	1 = 1st, 2 = 2nd, 3 = 3rd
@@ -257,11 +258,17 @@ result = pd.DataFrame({'pred' : y_pred, 'real' : y_test})
 y_pred = model.predict(test)
 
 # 에측하기
-print(y_pred)
+# print(y_pred)
 # print(type(y_pred))
 
-# 예측한것을 ndarray to list 
+df_submit = pd.DataFrame(y_pred, columns = ['Survived'])
 
-predict_result = y_pred.tolist()
-print(predict_result)
-print(len(predict_result))
+# print(df_submit)
+
+# print(Passenger_id)
+
+# 옆으로 합치기 - 열 기준
+merged_df = pd.concat([Passenger_id, df_submit], axis = 1)
+# print(merged_df)
+
+merged_df.to_csv('titanic_submit_csv.csv',encoding= "cp949", index = False)
